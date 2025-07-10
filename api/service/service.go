@@ -3,8 +3,10 @@ package service
 import (
 	"fmt"
 
-	"github.com/arnavmahajan630/cfcli/api/fetchuser/models"
+	"github.com/arnavmahajan630/cfcli/api/models"
 )
+
+
 
 func PopulateFromSubmissions(subs []models.CFSubmission, profile *models.UserProfile) {
 	unique := make(map[string]bool)

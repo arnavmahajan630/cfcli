@@ -5,8 +5,7 @@ import (
 
 	"github.com/arnavmahajan630/cfcli/api"
 	"github.com/arnavmahajan630/cfcli/api/fetchuser/controller"
-	"github.com/arnavmahajan630/cfcli/api/fetchuser/models"
-
+	"github.com/arnavmahajan630/cfcli/api/models"
 )
 
 
