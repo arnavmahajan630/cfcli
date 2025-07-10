@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"os/exec"
 	"strings"
 
 	styles "github.com/arnavmahajan630/cfcli/Styles"
 	"github.com/arnavmahajan630/cfcli/config"
+	"github.com/arnavmahajan630/cfcli/ui/utils"
 )
 
 func ShowWelcome() {
@@ -22,7 +22,7 @@ func ShowWelcome() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		clearScreen()
+		utils.ClearScreen()
 	}
 
 	// print the banner with username
@@ -41,11 +41,6 @@ func runOnboarding() config.Config {
 	return config.Config{Username: username}
 }
 
-func clearScreen() {
-	cmd := exec.Command("clear")
-	cmd.Stdout = os.Stdout
-	cmd.Run()
-}
 
 func printBanner(username string) {
 	banner := `
@@ -63,5 +58,5 @@ func printBanner(username string) {
 	fmt.Println(styles.LabelStyle.Render("📦 Version      : ") + styles.ValueStyle.Render("v1.0.0"))
 	fmt.Println(styles.LabelStyle.Render(styles.ElecStyle.Render("⚡") + " CLI Ready    : ") + styles.ValueStyle.Render("Type `cfcli --help` for commands"))
 	fmt.Println()
-	fmt.Println(styles.FooterStyle.Render("🔗 https://buymeacoffee.com/arnav630   ❤️  Made with love by arnav"))
+	fmt.Println(styles.FooterStyle.Render("If you like the effort consider supporting at := https://buymeacoffee.com/arnav630   ❤️ "))
 }
