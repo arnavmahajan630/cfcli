@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/arnavmahajan630/cfcli/api"
-	"github.com/arnavmahajan630/cfcli/api/fetchuser/router"
+	"github.com/arnavmahajan630/cfcli/api/features/whois"
 	"github.com/arnavmahajan630/cfcli/config"
 	"github.com/spf13/cobra"
 )
@@ -35,12 +35,12 @@ to quickly create a Cobra application.`,
 			fmt.Printf("🔍 Fetching profile for: %s\n", username)
 		}
 		start := time.Now()
-		if err := router.HandleProfileCommand(username); err != nil {
+		if err := whois.HandleProfileCommand(username); err != nil {
 			fmt.Println(err)
 		}
 		
 		elapsed := time.Since(start)
-		fmt.Printf("⏱️ Time taken: %s\n", elapsed)
+		fmt.Printf("⏱ Elapsed: %.2f seconds\n", elapsed.Seconds())
 		fmt.Println(api.UserProfile)
 	},
 }

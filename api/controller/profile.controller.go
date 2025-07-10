@@ -9,8 +9,6 @@ import (
 	"github.com/arnavmahajan630/cfcli/api/service"
 )
 
-// Generic decoder for responses
-
 func FetchUserInfo(username string, profile *models.UserProfile) error {
 	resp1, err := http.Get("https://codeforces.com/api/user.info?handles=" + username)
 	if err != nil {

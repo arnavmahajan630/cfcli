@@ -1,10 +1,10 @@
-package router
+package whois
 
 import (
 	"sync"
 
 	"github.com/arnavmahajan630/cfcli/api"
-	"github.com/arnavmahajan630/cfcli/api/fetchuser/controller"
+	"github.com/arnavmahajan630/cfcli/api/controller"
 	"github.com/arnavmahajan630/cfcli/api/models"
 )
 

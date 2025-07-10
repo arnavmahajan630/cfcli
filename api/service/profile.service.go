@@ -6,8 +6,6 @@ import (
 	"github.com/arnavmahajan630/cfcli/api/models"
 )
 
-
-
 func PopulateFromSubmissions(subs []models.CFSubmission, profile *models.UserProfile) {
 	unique := make(map[string]bool)
 	for _, s := range subs {
