@@ -19,10 +19,6 @@ type CFUser struct {
 	TitlePhoto    string  `json:"titlePhoto"`
 }
 
-type UserInfoResponse struct {
-	Status string   `json:"status"`
-	Result []CFUser `json:"result"`
-}
 
 
 type CFSubmission struct {
@@ -35,10 +31,6 @@ type CFSubmission struct {
 	} `json:"problem"`
 }
 
-type SubmissionResponse struct {
-	Status string         `json:"status"`
-	Result []CFSubmission `json:"result"`
-}
 
 
 type CFContestRating struct {
@@ -49,9 +41,4 @@ type CFContestRating struct {
 	RatingUpdateTimeSeconds int64 `json:"ratingUpdateTimeSeconds"`
 	OldRating   int    `json:"oldRating"`
 	NewRating   int    `json:"newRating"`
-}
-
-type ContestRatingResponse struct {
-	Status string             `json:"status"`
-	Result []CFContestRating  `json:"result"`
 }
