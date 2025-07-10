@@ -1,5 +1,7 @@
 package models
 
+import "encoding/json"
+
 type CFUser struct {
 	Handle        string  `json:"handle"`
 	FirstName     *string `json:"firstName"`
@@ -41,4 +43,10 @@ type CFContestRating struct {
 	RatingUpdateTimeSeconds int64 `json:"ratingUpdateTimeSeconds"`
 	OldRating   int    `json:"oldRating"`
 	NewRating   int    `json:"newRating"`
+}
+
+type BaseResponse struct {
+	Status  string          `json:"status"`
+	Comment string          `json:"comment"`
+	Result  json.RawMessage `json:"result"`
 }

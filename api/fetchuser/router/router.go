@@ -11,15 +11,11 @@ import (
 	"github.com/arnavmahajan630/cfcli/api/fetchuser/service"
 )
 
-type baseResponse struct {
-	Status  string          `json:"status"`
-	Comment string          `json:"comment"`
-	Result  json.RawMessage `json:"result"`
-}
 
-// Generic decoder for Codeforces responses
+
+// Generic decoder for responses
 func decodeCFResponse[T any](body []byte) ([]T, error) {
-	var base baseResponse
+	var base models.BaseResponse
 	if err := json.Unmarshal(body, &base); err != nil {
 		return nil, fmt.Errorf("failed to decode base response: %v", err)
 	}
