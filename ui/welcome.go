@@ -3,12 +3,13 @@ package ui
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"strings"
 
+	styles "github.com/arnavmahajan630/cfcli/Styles"
 	"github.com/arnavmahajan630/cfcli/config"
-	"github.com/charmbracelet/lipgloss"
 )
 
 func ShowWelcome() {
@@ -17,11 +18,14 @@ func ShowWelcome() {
 	// If config is missing or username not set, trigger onboarding
 	if err != nil || strings.TrimSpace(cfg.Username) == "" {
 		cfg = runOnboarding()
-		config.SaveConfig(cfg)
+		err := config.SaveConfig(cfg)
+		if err != nil {
+			log.Fatal(err)
+		}
 		clearScreen()
 	}
 
-	// print the real banner with username
+	// print the banner with username
 	printBanner(cfg.Username)
 }
 
@@ -44,17 +48,6 @@ func clearScreen() {
 }
 
 func printBanner(username string) {
-	mainStyle := lipgloss.NewStyle().
-		Foreground(lipgloss.Color("#FFD700")).
-		Bold(true)
-
-	infoStyle := lipgloss.NewStyle().
-		Foreground(lipgloss.Color("#00FFAA"))
-
-	footerStyle := lipgloss.NewStyle().
-		Foreground(lipgloss.Color("#888888")).
-		Italic(true)
-
 	banner := `
   _________  ___________ _________  .____     .___ 
 \_   ___ \ \_   _____/ \_   ___ \ |    |    |   |
@@ -63,11 +56,12 @@ func printBanner(username string) {
  \______  / \___  /     \______  /|_______ \|___|
         \/      \/             \/         \/     `
 
-	fmt.Println(mainStyle.Render(banner))
+	// 🖨️ Render
+	fmt.Println(styles.TitleStyle.Render(banner))
 	fmt.Println()
-	fmt.Println(infoStyle.Render("👤 Username     : " + username))
-	fmt.Println(infoStyle.Render("📦 Version      : v1.0.0"))
-	fmt.Println(infoStyle.Render("⚡ CLI Ready    : Type `cfcli --help` for commands"))
+	fmt.Println(styles.LabelStyle.Render("👤 Username     : ") + styles.ValueStyle.Render(username))
+	fmt.Println(styles.LabelStyle.Render("📦 Version      : ") + styles.ValueStyle.Render("v1.0.0"))
+	fmt.Println(styles.LabelStyle.Render(styles.ElecStyle.Render("⚡") + " CLI Ready    : ") + styles.ValueStyle.Render("Type `cfcli --help` for commands"))
 	fmt.Println()
-	fmt.Println(footerStyle.Render("🔗 https://buymeacoffee.com/arnav630   ❤️  Made with love by arnav"))
+	fmt.Println(styles.FooterStyle.Render("🔗 https://buymeacoffee.com/arnav630   ❤️  Made with love by arnav"))
 }
