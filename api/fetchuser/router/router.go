@@ -1,83 +1,46 @@
 package router
 
 import (
-	"encoding/json"
-	"fmt"
-	"io"
-	"net/http"
+	"sync"
 
 	"github.com/arnavmahajan630/cfcli/api"
+	"github.com/arnavmahajan630/cfcli/api/fetchuser/controller"
 	"github.com/arnavmahajan630/cfcli/api/fetchuser/models"
-	"github.com/arnavmahajan630/cfcli/api/fetchuser/service"
+
 )
 
 
-
-// Generic decoder for responses
-func decodeCFResponse[T any](body []byte) ([]T, error) {
-	var base models.BaseResponse
-	if err := json.Unmarshal(body, &base); err != nil {
-		return nil, fmt.Errorf("failed to decode base response: %v", err)
-	}
-	if base.Status != "OK" {
-		return nil, fmt.Errorf("API error: %s", base.Comment)
-	}
-
-	var result []T
-	if err := json.Unmarshal(base.Result, &result); err != nil {
-		return nil, fmt.Errorf("failed to decode result: %v", err)
-	}
-	return result, nil
-}
-
-func HandleProfileCommand(username string) {
+func HandleProfileCommand(username string) error{
 	var profile models.UserProfile
+    var wg sync.WaitGroup
+	errchan := make(chan error, 3)
+	wg.Add(3)
+	go func () {
+		defer wg.Done()
+		err := controller.FetchUserInfo(username, &profile)
+		errchan <- err
+	}()
 
-	// 1️⃣ user.info
-	resp1, err := http.Get("https://codeforces.com/api/user.info?handles=" + username)
-	if err != nil {
-		fmt.Println("❌ Failed to fetch user.info:", err)
-		return
-	}
-	defer resp1.Body.Close()
-	body1, _ := io.ReadAll(resp1.Body)
-	users, err := decodeCFResponse[models.CFUser](body1)
-	if err != nil || len(users) == 0 {
-		fmt.Println("❌ user.info error:", err)
-		return
-	}
-	service.PopulateFromInfo(&users[0], &profile)
+	go func() {
+		defer wg.Done()
+		err := controller.FetchUserStatus(username, &profile)
+		errchan <- err
+	}()
 
-	// 2️⃣ user.status
-	resp2, err := http.Get("https://codeforces.com/api/user.status?handle=" + username)
-	if err != nil {
-		fmt.Println("⚠️ Failed to fetch user.status:", err)
-	} else {
-		defer resp2.Body.Close()
-		body2, _ := io.ReadAll(resp2.Body)
-		subs, err := decodeCFResponse[models.CFSubmission](body2)
+	go func(){
+		defer wg.Done()
+		err := controller.FetchUserRatings(username, &profile)
+		errchan <- err
+	}()
+	wg.Wait()
+	close(errchan)
+
+	for err := range errchan {
 		if err != nil {
-			fmt.Println("⚠️ user.status decode failed:", err)
-		} else {
-			service.PopulateFromSubmissions(subs, &profile)
+			return err;
 		}
 	}
-
-	// 3️⃣ user.rating
-	resp3, err := http.Get("https://codeforces.com/api/user.rating?handle=" + username)
-	if err != nil {
-		fmt.Println("⚠️ Failed to fetch user.rating:", err)
-	} else {
-		defer resp3.Body.Close()
-		body3, _ := io.ReadAll(resp3.Body)
-		ratings, err := decodeCFResponse[models.CFContestRating](body3)
-		if err != nil {
-			fmt.Println("⚠️ user.rating decode failed:", err)
-		} else {
-			service.PopulateFromRatings(ratings, &profile)
-		}
-	}
-
-	// ✅ Export final profile for UI
+	// Export final profile for UI
 	api.UserProfile = profile
+	return nil
 }

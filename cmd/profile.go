@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/arnavmahajan630/cfcli/api"
 	"github.com/arnavmahajan630/cfcli/api/fetchuser/router"
@@ -26,18 +27,23 @@ to quickly create a Cobra application.`,
 		cfg, _ := config.LoadConfig()
 		var username string
 
-	if len(args) == 0 {
-		username = cfg.Username
-		fmt.Println("Fetching your profile ...")
-	} else {
-		username = args[0]
-		fmt.Printf("🔍 Fetching profile for: %s\n", username)
-	}
-	router.HandleProfileCommand(username)
-	 fmt.Println(api.UserProfile)
+		if len(args) == 0 {
+			username = cfg.Username
+			fmt.Println("Fetching your profile ...")
+		} else {
+			username = args[0]
+			fmt.Printf("🔍 Fetching profile for: %s\n", username)
+		}
+		start := time.Now()
+		if err := router.HandleProfileCommand(username); err != nil {
+			fmt.Println(err)
+		}
+		
+		elapsed := time.Since(start)
+		fmt.Printf("⏱️ Time taken: %s\n", elapsed)
+		fmt.Println(api.UserProfile)
 	},
 }
-
 
 func init() {
 	rootCmd.AddCommand(profileCmd)
