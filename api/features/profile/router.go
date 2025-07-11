@@ -1,4 +1,4 @@
-package whois
+package profile
 
 import (
 	"sync"
