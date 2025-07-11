@@ -31,6 +31,7 @@ type CFSubmission struct {
 		Index     string `json:"index"`
 		Name      string `json:"name"`
 	} `json:"problem"`
+	CreationTimeSeconds int64 `json:"creationTimeSeconds"`
 }
 
 
