@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/arnavmahajan630/cfcli/api"
 	"github.com/arnavmahajan630/cfcli/api/routers"
@@ -26,6 +27,8 @@ var stockCmd = &cobra.Command{
 			fmt.Printf("❌ Failed to fetch stock info: %v\n", err)
 			os.Exit(1)
 		}
+		fmt.Println("Stocking " + username + "...\n")
+		time.Sleep(2 * time.Second)
 		fmt.Println(api.StockResult)
 	},
 }
