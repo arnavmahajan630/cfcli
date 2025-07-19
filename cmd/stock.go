@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/arnavmahajan630/cfcli/api"
-	"github.com/arnavmahajan630/cfcli/api/features/stock"
+	"github.com/arnavmahajan630/cfcli/api/routers"
 	"github.com/spf13/cobra"
 )
 
@@ -21,7 +21,7 @@ var stockCmd = &cobra.Command{
 		}
 
 		username := args[0]
-		err := stock.StockUser(username)
+		err := routers.StockUser(username)
 		if err != nil {
 			fmt.Printf("❌ Failed to fetch stock info: %v\n", err)
 			os.Exit(1)

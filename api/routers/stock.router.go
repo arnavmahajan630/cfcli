@@ -1,4 +1,5 @@
-package stock
+package routers
+
 
 import (
 	"github.com/arnavmahajan630/cfcli/api"
