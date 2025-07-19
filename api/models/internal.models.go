@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type UserProfile struct {
 	Handle       string // Codeforces handle
 	Rank         string // e.g. "Expert"
@@ -26,3 +28,26 @@ type StockResult struct {
 	Verdict       string
 	TimeFormatted string 
 }
+
+type AnalysisReport struct {
+	GeneratedAt         time.Time
+	User                CFUser
+	Contests            []CFContestRating
+	Submissions         []CFSubmission
+
+	// Derived stats
+	ContestsCount       int
+	BestRank            int
+	WorstRank           int
+	RecentRanks         []int
+	RatingTrend         []int
+	TotalSolved         int
+	UniqueProblems      int
+	AvgProblemRating    float64
+	MaxProblemRating    int
+	FirstTryAccuracy    float64
+	VerdictCounts       map[string]int
+	TopTags             map[string]int
+	WeakTags            map[string]int
+}
+
