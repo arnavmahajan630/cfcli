@@ -1,11 +1,11 @@
 # CFCLI
 
 A simple terminal-based CLI tool to interact with [Codeforces](https://codeforces.com/) data.  
-Currently **(under construction) NOT WORKING ON IT CURRENTLY**, with a small set of working commands.
+Currently **(under construction) NOT WORKING ON IT CURRENTLY** with a few working commands.
 
 ---
 
-## Features (Current)
+## Features (Implemented)
 
 - **Profile**  
   Fetch and display basic profile details of a Codeforces user.  
@@ -19,18 +19,19 @@ Currently **(under construction) NOT WORKING ON IT CURRENTLY**, with a small set
   cfcli stock <username>
   ```
 
----
-
-## Planned Features
-
 - **Set Username**  
   Set a reference username so you don’t have to pass it every time.  
   ```bash
   cfcli set username <your_username>
   ```
-  (Not implemented yet)
 
-- More analysis commands for contests, problems, and user activity.
+---
+
+## Planned Features
+
+- **Analysis**  
+  Commands for analyzing contests, problems, and user activity.  
+  (Not implemented yet)
 
 ---
 
@@ -56,17 +57,16 @@ cfcli profile tourist
 
 # Get last solved problem
 cfcli stock tourist
+
+# Save a default username
+cfcli set username tourist
 ```
 
 ---
 
 ## Demo
 
-Add screenshots or GIFs of usage here.  
-For example:
-```markdown
-![CFCLI Demo](assets/demo.png)
-```
+![CFCLI Demo](./assets/demo.png)
 
 ---
 
